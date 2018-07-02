@@ -1,0 +1,38 @@
+accessible: /
+author: Ludovic TAFFIN
+context: |+
+    Après avoir réussi à espionner Ned Stark, Philippe et Elisabeth sont envoyés sur une autre mission périlleuse. Leur cible est dans un territoire qui n'est pas couvert par les satellites et donc les méthodes ``getTargetX()`` et ``getTargetY()`` ne fonctionnent pas. Vos espions vont donc devoir parcourir tout le territoire afin de trouver leur cible. Ecrivez en Java le comportement de l'espion qui parcourt tout ce territoire pour trouver sa cible en sachant que les seuls obstacles que vous devez gérer sont des forêts isolées.
+
+    Voici un exemple de territoire que vous devez gérer. Les positions initiale de Philippe et Elisabeth et de leur cible ne vous sont pas connues.
+
+
+       .. container:: text-center
+
+                .. image:: gameofspies-ANewHope/map.png
+
+
+
+
+environment: java7
+evaluate: last
+groups: false
+limits:
+    output: '1'
+    memory: '200'
+    time: '30'
+name: Game of Spies - A New Hope
+network_grading: false
+order: 1
+problems:
+    q1:
+        language: java
+        header: Insérez uniquement le ``corps`` de votre méthode ``behave()``. Il
+            n'est pas nécessaire de mettre la ``signature`` et les accolades ouvrantes
+            et fermantes.
+        type: code
+        name: Copier le code de votre méthode behave.
+stored_submissions: 0
+submission_limit:
+    amount: -1
+    period: -1
+weight: 1.0

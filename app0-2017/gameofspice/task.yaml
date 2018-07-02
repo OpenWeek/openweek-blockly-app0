@@ -1,0 +1,33 @@
+accessible: 2017-09-22 10:45:00/2017-09-22 15:00:00
+author: Ludovic TAFFIN
+context: |+
+    Uploader ici votre version de Spies.java.
+
+    -  |location_link_pdf|
+
+    .. |location_link_pdf| raw:: html
+
+       <a href="http://inginious.info.ucl.ac.be/course/APP0-2017/gameofspies/GameOfSpies.zip" target="_blank">Le zip à télécharger</a>
+
+environment: java7
+evaluate: last
+groups: false
+limits:
+    output: '1'
+    memory: '200'
+    time: '30'
+name: Game of Spies
+network_grading: false
+order: 0
+problems:
+    q2:
+        type: file
+        name: Upload your code
+        header: ''
+        allowed_exts:
+        - .java
+stored_submissions: 0
+submission_limit:
+    amount: -1
+    period: -1
+weight: 1.0

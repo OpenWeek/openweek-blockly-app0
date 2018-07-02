@@ -1,0 +1,92 @@
+#!/usr/bin/python3
+
+#   Copyright (c) 2017 Ludovic Taffin
+#   This program is free software: you can redistribute it and/or modify
+#   it under the terms of the GNU Affero General Public License as published by
+#   the Free Software Foundation, either version 3 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU Affero General Public License for more details.
+#
+#   You should have received a copy of the GNU Affero General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+from os import listdir, system
+import zipfile
+import subprocess
+import shlex
+from inginious import rst
+from inginious import feedback
+
+runningTest = True
+
+def compile_files(args, exercice):
+    outpther=""
+    output = ""
+    with open('logOther.out', 'w+', encoding="utf-8") as f:
+        subprocess.call(args + ['student/Runner.java'], universal_newlines=True, stderr=f)
+        f.seek(0)
+        outother = f.read()
+    system("cat logOther.out")
+    with open('log.out', 'w+', encoding="utf-8") as f:
+        subprocess.call(args +["student/"+exercice+".java"], universal_newlines=True, stderr=f)
+        f.seek(0)
+        output = f.read()
+    return output
+
+
+# Verify the file content
+if __name__ == '__main__':
+    system('getinput "q2" > student/Spies.java')
+    system('sed -i "s/import greenfoot.*;/package student;/g" student/Spies.java')
+    javac = "javac -encoding UTF8"
+    java = "java -ea"
+    javac_args = shlex.split(javac)
+    java_args = shlex.split(java)
+    outjavac = ""
+    output =""
+    try:
+        outjavac = compile_files(javac_args,"Spies")
+        if (outjavac):
+            output += "Something goes wrong while compilation.\n"
+            output += rst.get_codeblock("", outjavac)
+            system('feedback --result failed --feedback "' + output + '"')
+        else:
+            error = 0
+            if runningTest:
+                with open('err.txt', 'w+', encoding="utf-8") as f:
+                    resproc = subprocess.Popen(java_args + ['student/Runner'], universal_newlines=True, stderr=f, stdout=subprocess.PIPE)
+                    out,err = resproc.communicate()
+                    resultat = resproc.returncode
+                    f.flush()
+                    f.seek(0)
+                    outerr = f.read()
+                system("cat student/printresult.txt")
+                with open("student/printresult.txt", "r") as f2:
+                    nbSteps = (float(f2.readline().strip()))
+                    level = (float(f2.readline().strip()))
+                if resultat == 127:
+                    system('feedback --result success --feedback "nb steps: ' + str(nbSteps) + ' level: '+str(level)+'"')
+                else:
+                    system('feedback --result failed --feedback "nb steps: ' + str(nbSteps) + ' level: '+str(level)+'"')
+                    #res = 7x(level-1)-7x((nbpastot sans le niveau raté!!!)/(level-1)x150)
+                    if level==1:
+                        res = float((7*int(level-1))- 7*(int(nbSteps)/(int(level)*150)))
+                    else:
+                        res = float((7*int(level-1))- 7*(int(nbSteps)/(int(level-1)*150)))
+                    print(res)
+                    if res <=0:
+                        res=0
+                    feedback.set_grade(res)
+                    error = 1
+
+            if error == 0:
+                      output += "Your code compile.\n"
+                      output += "\n**code content: 1/1**"
+                      system('feedback --result success --feedback "' + output + '"')
+    except subprocess.CalledProcessError as e:
+        output += "There are some compilation errors with your program :\n::\n\n"
+        system('feedback --result failed --feedback "' + output + '"')
