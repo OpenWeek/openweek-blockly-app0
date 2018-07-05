@@ -77,7 +77,7 @@ window.stepSpeed = json.map.animationSpeed;
 Maze.SquareType = json.map.squareType;
 
 // The maze square constants
-Maze.map = json.map.layout;
+Maze.map = json.map.layout[0];
 
 /**
  * Measure maze dimensions and set sizes.
@@ -133,6 +133,25 @@ Maze.startDirection = Maze.DirectionType[json.map.startDirection];
  * PIDs of animation tasks currently executing.
  */
 Maze.pidList = [];
+
+
+Maze.updateMap = function(map){
+    Maze.map = map;
+    Maze.ROWS = Maze.map.length;
+    Maze.COLS = Maze.map[0].length;
+    Maze.MAZE_WIDTH = Maze.SQUARE_SIZE * Maze.COLS;
+    Maze.MAZE_HEIGHT = Maze.SQUARE_SIZE * Maze.ROWS;
+    Maze.PATH_WIDTH = Maze.SQUARE_SIZE / 3;
+}
+
+Maze.reload_maze = function(map) {
+    if (typeof Maze !== "undefined" && typeof Maze.reset !== "undefined") {
+        Maze.updateMap(map);
+	    $("#blocklySvgZone").empty();
+	    Maze.init();
+	}
+
+}
 
 
 /**
