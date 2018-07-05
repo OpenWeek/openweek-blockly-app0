@@ -277,9 +277,9 @@ Maze.init = function() {
     // Blockly.Blocks && (Blockly.Blocks.ONE_BASED_INDEXING = false);
     // Blockly.JavaScript && (Blockly.JavaScript.ONE_BASED_INDEXING = false);
 
-    Blockly.getMainWorkspace().loadAudio_(Maze.SKIN.winSound, 'win');
-    Blockly.getMainWorkspace().loadAudio_(Maze.SKIN.crashSound, 'fail');
-    Blockly.getMainWorkspace().loadAudio_(Maze.SKIN.obstacleSound, 'obstacle');
+    Blockly.getMainWorkspace().getAudioManager().load(Maze.SKIN.winSound, 'win');
+    Blockly.getMainWorkspace().getAudioManager().load(Maze.SKIN.crashSound, 'fail');
+    Blockly.getMainWorkspace().getAudioManager().load(Maze.SKIN.obstacleSound, 'obstacle');
     // Not really needed, there are no user-defined functions or variables.
     Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
         'turnRight,turnLeft,isPathForward,isPathRight,isPathBackward,isPathLeft');
@@ -536,7 +536,7 @@ Maze.schedule = function(startPos, endPos) {
             var finishIcon = document.getElementById('finish');
             if (finishIcon.getAttribute('xlink:href') != Maze.SKIN.goalAnimation) {
                 finishIcon.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', Maze.SKIN.goalAnimation);
-                Blockly.getMainWorkspace().playAudio('win', 0.3);
+                Blockly.getMainWorkspace().getAudioManager().play('win', 0.3);
             }
         }, window.stepSpeed * 4));
     }
@@ -575,7 +575,7 @@ Maze.scheduleFail = function(forward) {
     if (squareType === Maze.SquareType.OBSTACLE) {
         BlocklyTaskInterpreter.alert("Vous avez heurté un obstacle !");
         // Play the sound
-        Blockly.getMainWorkspace().playAudio('obstacle');
+        Blockly.getMainWorkspace().getAudioManager().play('obstacle');
 
         // Play the animation
         var direction16 = Maze.constrainDirection16(Maze.pegmanD * 4);
@@ -598,7 +598,7 @@ Maze.scheduleFail = function(forward) {
         }, window.stepSpeed * 2));
 
         Maze.pidList.push(setTimeout(function() {
-            Blockly.getMainWorkspace().playAudio('failure');
+            Blockly.getMainWorkspace().getAudioManager().play('failure');
         }, window.stepSpeed));
     } else if (Maze.SKIN.crashType == Maze.CRASH_STOP) {
         BlocklyTaskInterpreter.alert("Vous avez heurté un mur !");
@@ -609,7 +609,7 @@ Maze.scheduleFail = function(forward) {
         Maze.displayPegman(Maze.pegmanX + deltaX,
             Maze.pegmanY + deltaY,
             direction16);
-        Blockly.getMainWorkspace().playAudio('fail', 0.5);
+        Blockly.getMainWorkspace().getAudioManager().play('fail', 0.5);
         Maze.pidList.push(setTimeout(function() {
             Maze.displayPegman(Maze.pegmanX,
                 Maze.pegmanY,
@@ -619,7 +619,7 @@ Maze.scheduleFail = function(forward) {
             Maze.displayPegman(Maze.pegmanX + deltaX,
                 Maze.pegmanY + deltaY,
                 direction16);
-            Blockly.getMainWorkspace().playAudio('fail', 0.5);
+            Blockly.getMainWorkspace().getAudioManager().play('fail', 0.5);
         }, window.stepSpeed * 2));
         Maze.pidList.push(setTimeout(function() {
             Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, direction16);
@@ -637,7 +637,7 @@ Maze.scheduleFail = function(forward) {
             acceleration = 0.01;
         }
         Maze.pidList.push(setTimeout(function() {
-            Blockly.getMainWorkspace().playAudio('fail', 0.5);
+            Blockly.getMainWorkspace().getAudioManager().play('fail', 0.5);
         }, window.stepSpeed * 2));
         var setPosition = function(n) {
             return function() {
@@ -666,7 +666,7 @@ Maze.scheduleFinish = function(sound) {
     var direction16 = Maze.constrainDirection16(Maze.pegmanD * 4);
     Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, 16);
     if (sound) {
-        Blockly.getMainWorkspace().playAudio('win', 0.5);
+        Blockly.getMainWorkspace().getAudioManager().play('win', 0.5);
     }
     window.stepSpeed = 250; // Slow down victory animation a bit.
     Maze.pidList.push(setTimeout(function() {
