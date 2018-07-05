@@ -1,0 +1,71 @@
+accessible: true
+author: Florian Thuin
+context: ''
+environment: default
+evaluate: best
+groups: false
+input_random: '0'
+limits:
+    memory: '100'
+    time: '30'
+    output: '2'
+name: App0
+network_grading: false
+order: 0
+problems:
+    code:
+        options:
+            maxBlocks: Infinity
+            oneBasedIndex: true
+            sounds: true
+            trashcan: true
+            scrollbars: true
+            toolboxPosition: start
+            media: /static/common/js/blockly/media/
+            visual:
+                position: left
+            css: true
+        name: Exécution séquentielle
+        type: blockly
+        files:
+        - maze.js
+        - interpreter.js
+        blocks_files:
+        - blocks.js
+        workspace: ''
+        header: ''
+        toolbox: |-
+            <xml xmlns="http://www.w3.org/1999/xhtml">
+              <block type="controls_if"></block>
+              <block type="can_move"></block>
+              <block type="is_in_front_of_enemy"></block>
+              <block type="logic_compare">
+                <field name="OP">EQ</field>
+              </block>
+              <block type="maze_turn">
+                <field name="DIR">turnLeft</field>
+              </block>
+              <block type="is_on_target"></block>
+              <block type="maze_moveForward"></block>
+              <block type="logic_negate"></block>
+              <block type="math_number">
+                <field name="NUM">0</field>
+              </block>
+              <block type="get_player_pos">
+                <field name="VALUE">X</field>
+              </block>
+              <block type="controls_whileUntil">
+                <field name="MODE">WHILE</field>
+              </block>
+              <block type="get_target_pos">
+                <field name="VALUE">X</field>
+              </block>
+              <block type="get_player_dir"></block>
+              <block type="spy_on_target"></block>
+            </xml>
+stored_submissions: 0
+submission_limit:
+    amount: -1
+    period: -1
+tags: {}
+weight: 1.0
